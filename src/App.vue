@@ -1,7 +1,3 @@
-<script setup lang="ts">
-import DebateViewer from "./components/DebateViewer.vue";
-</script>
-
 <template>
   <div class="app w-full flex-grow">
     <router-view />

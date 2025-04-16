@@ -236,7 +236,6 @@ const debateStore = useDebateStore();
 const debateTopic = ref("");
 const isDebateActive = computed(() => debateStore.isActive);
 const isLoading = computed(() => debateStore.isLoading);
-const currentSpeaker = computed(() => debateStore.currentSpeaker);
 
 const startDebate = async () => {
   if (!debateTopic.value.trim()) return;
