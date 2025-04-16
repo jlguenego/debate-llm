@@ -8,6 +8,11 @@ interface Message {
   timestamp: string;
 }
 
+interface DebaterConfig {
+  orientation: string;
+  prompt: string;
+}
+
 export const useDebateStore = defineStore("debate", () => {
   const messages = ref<Message[]>([]);
   const isActive = ref(false);
@@ -15,6 +20,18 @@ export const useDebateStore = defineStore("debate", () => {
   const currentSpeaker = ref<"OpenAI-1" | "OpenAI-2">("OpenAI-1");
   const topic = ref("");
   const currentMessage = ref("");
+  const debaterConfigs = ref<Record<"OpenAI-1" | "OpenAI-2", DebaterConfig>>({
+    "OpenAI-1": {
+      orientation: "Gauche",
+      prompt:
+        "Tu es un débatteur de gauche, progressiste et social-démocrate. Tu défends les valeurs d'égalité, de solidarité et de justice sociale.",
+    },
+    "OpenAI-2": {
+      orientation: "Droite",
+      prompt:
+        "Tu es un débatteur de droite, conservateur et libéral. Tu défends les valeurs de liberté individuelle, de responsabilité personnelle et de tradition.",
+    },
+  });
 
   const openai1 = new OpenAI({
     apiKey: import.meta.env.VITE_OPENAI_API_KEY,
@@ -29,6 +46,16 @@ export const useDebateStore = defineStore("debate", () => {
   const addMessage = (message: Message) => {
     messages.value.push(message);
     currentMessage.value = "";
+  };
+
+  const updateDebaterConfig = (
+    debater: "OpenAI-1" | "OpenAI-2",
+    config: Partial<DebaterConfig>
+  ) => {
+    debaterConfigs.value[debater] = {
+      ...debaterConfigs.value[debater],
+      ...config,
+    };
   };
 
   const startDebate = async (debateTopic: string) => {
@@ -47,7 +74,7 @@ export const useDebateStore = defineStore("debate", () => {
         messages: [
           {
             role: "system",
-            content: `Tu es un expert en débat. Tu dois débattre sur le sujet : ${debateTopic}. 
+            content: `${debaterConfigs.value["OpenAI-1"].prompt} Tu dois débattre sur le sujet : ${debateTopic}. 
             Tu es le premier débatteur. Commence le débat en présentant ton point de vue de manière concise et argumentée.
             Ne t'identifie pas dans ta réponse, commence directement par ton argument.`,
           },
@@ -95,9 +122,9 @@ export const useDebateStore = defineStore("debate", () => {
         messages: [
           {
             role: "system",
-            content: `Tu es un expert en débat. Tu dois débattre sur le sujet : ${
-              topic.value
-            }. 
+            content: `${
+              debaterConfigs.value[currentSpeaker.value].prompt
+            } Tu dois débattre sur le sujet : ${topic.value}. 
             Tu es ${
               currentSpeaker.value === "OpenAI-1" ? "le premier" : "le second"
             } débatteur.
@@ -151,6 +178,8 @@ export const useDebateStore = defineStore("debate", () => {
     currentSpeaker,
     topic,
     currentMessage,
+    debaterConfigs,
+    updateDebaterConfig,
     startDebate,
     continueDebate,
     stopDebate,
