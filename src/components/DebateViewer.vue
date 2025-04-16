@@ -81,11 +81,11 @@
               v-else
               @click="continueDebate"
               :disabled="isLoading"
-              class="w-10 h-10 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors duration-200 flex items-center justify-center"
+              class="flex-1 px-3 sm:px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors duration-200 flex items-center justify-center gap-2 text-xs sm:text-sm font-medium"
             >
               <svg
                 v-if="isLoading"
-                class="animate-spin h-4 w-4"
+                class="animate-spin h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
@@ -107,7 +107,7 @@
               <svg
                 v-else
                 xmlns="http://www.w3.org/2000/svg"
-                class="h-4 w-4"
+                class="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0"
                 viewBox="0 0 20 20"
                 fill="currentColor"
               >
@@ -117,6 +117,9 @@
                   clip-rule="evenodd"
                 />
               </svg>
+              <span class="truncate">{{
+                isLoading ? "Chargement..." : "Continuer"
+              }}</span>
             </button>
             <button
               @click="resetDebate"
@@ -172,9 +175,9 @@
             <div class="flex items-center gap-2 min-w-0">
               <span
                 class="text-xs sm:text-sm font-medium text-gray-900 truncate"
-                >{{ message.sender }} ({{
+                >{{
                   debateStore.debaterConfigs[message.sender].orientation
-                }})</span
+                }}</span
               >
               <span
                 class="text-[10px] sm:text-xs text-gray-500 bg-gray-100 px-2 py-0.5 sm:py-1 rounded-full whitespace-nowrap"
@@ -203,10 +206,10 @@
             <div class="flex items-center gap-2 min-w-0">
               <span
                 class="text-xs sm:text-sm font-medium text-gray-900 truncate"
-                >{{ debateStore.currentSpeaker }} ({{
+                >{{
                   debateStore.debaterConfigs[debateStore.currentSpeaker]
                     .orientation
-                }})</span
+                }}</span
               >
               <span
                 class="text-[10px] sm:text-xs text-gray-500 bg-gray-100 px-2 py-0.5 sm:py-1 rounded-full whitespace-nowrap"
