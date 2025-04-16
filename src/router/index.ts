@@ -3,7 +3,7 @@ import DebateViewer from "../components/DebateViewer.vue";
 import DebaterConfig from "../pages/DebaterConfig.vue";
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: "/",
