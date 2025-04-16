@@ -138,7 +138,7 @@
             </button>
             <router-link
               to="/config"
-              class="bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors duration-200 flex items-center justify-center px-4 py-1"
+              class="w-10 h-10 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors duration-200 flex items-center justify-center"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"

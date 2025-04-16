@@ -4,7 +4,7 @@ import DebateViewer from "./components/DebateViewer.vue";
 
 <template>
   <div class="app w-full flex-grow">
-    <DebateViewer />
+    <router-view />
   </div>
 </template>
 
