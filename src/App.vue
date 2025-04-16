@@ -3,7 +3,7 @@ import DebateViewer from "./components/DebateViewer.vue";
 </script>
 
 <template>
-  <div class="app">
+  <div class="app w-full flex-grow">
     <DebateViewer />
   </div>
 </template>
