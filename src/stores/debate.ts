@@ -20,6 +20,7 @@ export const useDebateStore = defineStore("debate", () => {
   const currentSpeaker = ref<"OpenAI-1" | "OpenAI-2">("OpenAI-1");
   const topic = ref("");
   const currentMessage = ref("");
+  const apiKey = ref(localStorage.getItem("openai_api_key") || "");
   const debaterConfigs = ref<Record<"OpenAI-1" | "OpenAI-2", DebaterConfig>>({
     "OpenAI-1": {
       orientation: "Socialiste",
@@ -61,13 +62,26 @@ export const useDebateStore = defineStore("debate", () => {
     },
   });
 
+  const getApiKey = () => {
+    if (!apiKey.value) {
+      const key = window.prompt("Veuillez entrer votre clé API OpenAI:");
+      if (key) {
+        apiKey.value = key;
+        localStorage.setItem("openai_api_key", key);
+      } else {
+        throw new Error("Clé API OpenAI requise");
+      }
+    }
+    return apiKey.value;
+  };
+
   const openai1 = new OpenAI({
-    apiKey: import.meta.env.VITE_OPENAI_API_KEY,
+    apiKey: getApiKey(),
     dangerouslyAllowBrowser: true,
   });
 
   const openai2 = new OpenAI({
-    apiKey: import.meta.env.VITE_OPENAI_API_KEY,
+    apiKey: getApiKey(),
     dangerouslyAllowBrowser: true,
   });
 
